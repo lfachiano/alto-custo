@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ItemDeRemessa } from 'src/app/tipos/item-de-remessa';
 
 import * as XLSX from 'xlsx';
 
@@ -15,6 +16,7 @@ export class RemessaComponent {
 
   nomeDoArquivo: any;
   dados: DADOS = [[], []];
+  itens: ItemDeRemessa[] | undefined;
 
   constructor() {}
 

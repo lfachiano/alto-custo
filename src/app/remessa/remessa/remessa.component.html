@@ -1,23 +1,16 @@
-
-<input type="file" class="file-input"
-       (change)="onFileSelected($event)" #fileUpload>
-
-<div class="file-upload">
-
-   {{ nomeDoArquivo || "Nenhum arquivo selecionado." }}
-
-    <button mat-mini-fab color="primary" class="upload-btn"
-      (click)="fileUpload.click()">
-        <mat-icon>file_upload</mat-icon>
-    </button>
-</div>
-
-
-
 <mat-card>
 
   <mat-toolbar color="primary">
-    <span>{{ nomeDoArquivo }}</span>
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+    <div class="file-upload">
+
+      {{ nomeDoArquivo || "Nenhum arquivo selecionado." }}
+
+      <button mat-mini-fab color="warn"  (click)="fileUpload.click()">
+        <mat-icon>file_upload</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
   <mat-card-content>
