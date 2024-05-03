@@ -4,11 +4,40 @@
 
 <div class="file-upload">
 
-   {{fileName || "Nenhum arquivo selecionado."}}
+   {{ nomeDoArquivo || "Nenhum arquivo selecionado." }}
 
     <button mat-mini-fab color="primary" class="upload-btn"
       (click)="fileUpload.click()">
-        <mat-icon>attach_file</mat-icon>
+        <mat-icon>file_upload</mat-icon>
     </button>
 </div>
 
+
+
+<mat-card>
+
+  <mat-toolbar color="primary">
+    <span>{{ nomeDoArquivo }}</span>
+  </mat-toolbar>
+
+  <mat-card-content>
+    <mat-table [dataSource]="dados" class="mat-table">
+
+      <!-- Coluna de Nome -->
+      <ng-container matColumnDef="nome">
+        <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+        <mat-cell *matCellDef="let item"> {{ item[0] }} </mat-cell>
+      </ng-container>
+
+      <!-- Coluna de Medicamento -->
+      <ng-container matColumnDef="medicamento">
+        <mat-header-cell *matHeaderCellDef> Medicamento </mat-header-cell>
+        <mat-cell *matCellDef="let item"> {{ item[4] }} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="colunasExibidas"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: colunasExibidas;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>

@@ -11,7 +11,9 @@ type DADOS = any[][];
 })
 export class RemessaComponent {
 
-  fileName: any;
+  readonly colunasExibidas = ['nome', 'medicamento'];
+
+  nomeDoArquivo: any;
   dados: DADOS = [[], []];
 
   constructor() {}
@@ -21,7 +23,7 @@ export class RemessaComponent {
     const target: DataTransfer = <DataTransfer>(evt.target);
 
     if (target.files.length !== 1) {
-      this.fileName = `Não é possível utilizar múltiplos arquivos`;
+      this.nomeDoArquivo = `Não é possível utilizar múltiplos arquivos`;
       throw new Error('Não é possível utilizar múltiplos arquivos');
     }
 
@@ -36,7 +38,7 @@ export class RemessaComponent {
       //recupera a primeira planilha
       const nomeDaPlanilha: string = arquivo.SheetNames[0];
       const planilha: XLSX.WorkSheet = arquivo.Sheets[nomeDaPlanilha];
-      this.fileName = nomeDaPlanilha;
+      this.nomeDoArquivo = nomeDaPlanilha;
 
       //converte o arquivo em array
       this.dados = <DADOS>(XLSX.utils.sheet_to_json(planilha, { header: 1 }));
