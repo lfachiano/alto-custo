@@ -1,17 +1,31 @@
-.file-input {
-  display: none;
+.container {
+  display: flex;
+  justify-content: space-around;
 }
 
 mat-card {
-  max-width: 90%;
-  margin: 2em auto;
+  width: 100%;
   text-align: center;
+  margin: 50px;
+}
+
+.file-input {
+  display: none;
 }
 
 .column-flex {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
 }
 
+mat-table {
+  width: 100%;
+}
 
+.action-column {
+  flex: 0 0 100px;
+}
+
+.action-column-header {
+  flex: 0 0 115px;
+}

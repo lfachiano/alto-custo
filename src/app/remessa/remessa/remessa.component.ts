@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ItemDeRemessa } from 'src/app/tipos/item-de-remessa';
 
 import * as XLSX from 'xlsx';
@@ -12,13 +13,17 @@ type DADOS = any[][];
 })
 export class RemessaComponent {
 
-  readonly colunasExibidas = ['nome', 'medicamento'];
+  readonly colunasDaPlanilha = ['nome', 'medicamento', 'selecionar'];
+  readonly colunasDaRemessa = ['nome', 'medicamento', 'tipo', 'excluir'];
 
   nomeDoArquivo: any;
-  dados: DADOS = [[], []];
-  itens: ItemDeRemessa[] | undefined;
+  dados: DADOS = [];
+  //itens: ItemDeRemessa[] = [];
+  itens = new MatTableDataSource<ItemDeRemessa>();
 
-  constructor() {}
+  constructor(
+
+  ) {}
 
   onFileSelected(evt: any) {
 
@@ -50,6 +55,18 @@ export class RemessaComponent {
   }
 
 
+  usar(item: any) {
+
+    let ir: ItemDeRemessa = {
+      nome: item[0],
+      medicamento: item[4],
+      tipoDeDocumento: `Geral`
+    }
+
+    let aux = this.itens.data;
+    aux.push(ir);
+    this.itens.connect().next(aux);
+  }
 
 
   export(): void {

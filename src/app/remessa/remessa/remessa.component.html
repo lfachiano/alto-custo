@@ -1,13 +1,16 @@
-<mat-card>
+<div class="container">
 
-  <mat-toolbar color="primary">
-    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+  <!-- DADOS DA PLANILHA -->
+  <mat-card>
 
-    <div class="file-upload">
+    <mat-toolbar color="primary">
+      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
 
-      {{ nomeDoArquivo || "Nenhum arquivo selecionado." }}
+      <div class="file-upload">
 
-      <button mat-mini-fab color="warn"  (click)="fileUpload.click()">
+        {{ nomeDoArquivo || "Nenhum arquivo selecionado." }}
+
+        <button mat-mini-fab color="warn"  (click)="fileUpload.click()">
         <mat-icon>file_upload</mat-icon>
       </button>
     </div>
@@ -28,9 +31,71 @@
         <mat-cell *matCellDef="let item"> {{ item[4] }} </mat-cell>
       </ng-container>
 
+       <!-- Coluna de Seleção -->
+       <ng-container matColumnDef="selecionar">
+        <mat-header-cell *matHeaderCellDef class="action-column-header"> Selecionar item </mat-header-cell>
+        <mat-cell *matCellDef="let item" class="action-column">
+          <button mat-icon-button color="primary" aria-label="Selecionar item" (click)="usar(item)">
+            <mat-icon>play_circle</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
 
-      <mat-header-row *matHeaderRowDef="colunasExibidas"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: colunasExibidas;"></mat-row>
+      <mat-header-row *matHeaderRowDef="colunasDaPlanilha"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: colunasDaPlanilha;"></mat-row>
     </mat-table>
   </mat-card-content>
 </mat-card>
+
+
+<!-- ITENS DE REMESSA -->
+<mat-card>
+
+  <mat-toolbar color="primary">
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+    <div class="file-upload">
+
+      {{ "Gerar Documento" }}
+
+      <button mat-mini-fab color="warn"  (click)="fileUpload.click()">
+      <mat-icon>file_upload</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-card-content>
+  <mat-table [dataSource]="itens" class="mat-table">
+
+    <!-- Coluna de Nome -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{ item.nome }} </mat-cell>
+    </ng-container>
+
+    <!-- Coluna de Medicamento -->
+    <ng-container matColumnDef="medicamento">
+      <mat-header-cell *matHeaderCellDef> Medicamento </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{ item.medicamento }} </mat-cell>
+    </ng-container>
+
+     <!-- Coluna de Tipo -->
+     <ng-container matColumnDef="tipo">
+      <mat-header-cell *matHeaderCellDef> Tipo de Documento </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{ item.tipoDeDocumento }} </mat-cell>
+    </ng-container>
+
+     <!-- Coluna de Excluir -->
+     <ng-container matColumnDef="excluir">
+      <mat-header-cell *matHeaderCellDef> Remover </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{ "Excluir" }} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="colunasDaRemessa"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: colunasDaRemessa;"></mat-row>
+  </mat-table>
+</mat-card-content>
+</mat-card>
+
+</div>
