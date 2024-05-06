@@ -1,0 +1,17 @@
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Escolha o tipo de documento</mat-label>
+
+    <mat-select [(ngModel)]="selectedValue" name="tipos">
+      <mat-option *ngFor="let item of valores" [value]="item.value">
+        {{ item.texto }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onConfirm(true)">Ok</button>
+</div>

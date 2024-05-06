@@ -52,14 +52,12 @@
 <mat-card>
 
   <mat-toolbar color="primary">
-    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
-
     <div class="file-upload">
 
       {{ "Gerar Documento" }}
 
-      <button mat-mini-fab color="warn"  (click)="fileUpload.click()">
-      <mat-icon>file_upload</mat-icon>
+      <button mat-mini-fab color="warn"  (click)="gerarDocumento()">
+      <mat-icon>description</mat-icon>
     </button>
   </div>
 </mat-toolbar>
@@ -87,8 +85,12 @@
 
      <!-- Coluna de Excluir -->
      <ng-container matColumnDef="excluir">
-      <mat-header-cell *matHeaderCellDef> Remover </mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{ "Excluir" }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="action-column-header"> Excluir </mat-header-cell>
+      <mat-cell *matCellDef="let item" class="action-column">
+        <button mat-icon-button color="primary" aria-label="Excluir item da relação" (click)="remover(item)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </mat-cell>
     </ng-container>
 
 

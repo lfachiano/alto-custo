@@ -1,8 +1,12 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Form } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ItemDeRemessa } from 'src/app/tipos/item-de-remessa';
 
 import * as XLSX from 'xlsx';
+import { TipoDocumentoDialogComponent } from '../tipo-documento-dialog/tipo-documento-dialog.component';
 
 type DADOS = any[][];
 
@@ -18,12 +22,14 @@ export class RemessaComponent {
 
   nomeDoArquivo: any;
   dados: DADOS = [];
-  //itens: ItemDeRemessa[] = [];
   itens = new MatTableDataSource<ItemDeRemessa>();
 
   constructor(
-
-  ) {}
+    private service: LocalStorageService,
+    public dialog: MatDialog
+  ) {
+    this.service.clear();
+  }
 
   onFileSelected(evt: any) {
 
@@ -57,20 +63,50 @@ export class RemessaComponent {
 
   usar(item: any) {
 
-    let ir: ItemDeRemessa = {
-      nome: item[0],
-      medicamento: item[4],
-      tipoDeDocumento: `Geral`
+
+    let tipo = this.selecionarTipoDeDocumento();
+
+
+      let ir: ItemDeRemessa = {
+        nome: item[0],
+        medicamento: item[4],
+        tipoDeDocumento: tipo
+      }
+
+      let aux = this.itens.data;
+      aux.push(ir);
+      this.itens.connect().next(aux);
+
+
+  }
+
+  remover(ir: ItemDeRemessa) {
+
+    let itensderemessa = this.itens.data;
+    let index = itensderemessa.indexOf(ir);
+
+    if (index > -1) {
+      itensderemessa.splice(index, 1);
     }
 
-    let aux = this.itens.data;
-    aux.push(ir);
-    this.itens.connect().next(aux);
+    this.itens.connect().next(itensderemessa);
+
+  }
+
+  gerarDocumento() {
+    console.log(`Gerar Documento`);
   }
 
 
-  export(): void {
+  async selecionarTipoDeDocumento() {
 
+    const dialog = this.dialog.open(TipoDocumentoDialogComponent);
+    await dialog.afterClosed().subscribe(tipo => {
+      return tipo;
+    });
+
+    return "";
   }
+
 
 }
