@@ -1,0 +1,21 @@
+<div mat-dialog-content>
+
+  <div class="form">
+
+    <mat-form-field>
+      <mat-label>Destinatário</mat-label>
+      <input matInput type="text" [(ngModel)]="dados.destinatario">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data</mat-label>
+      <input matInput type="text" [(ngModel)]="dados.data">
+    </mat-form-field>
+
+  </div>
+
+
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onConfirm(true)">Ok</button>
+</div>

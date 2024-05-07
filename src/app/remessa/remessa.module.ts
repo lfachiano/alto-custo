@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ExportarDocumentoDialogComponent } from './exportar-documento-dialog/exportar-documento-dialog.component';
 
 
 
@@ -23,7 +24,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   declarations: [
     RemessaComponent,
     ExportarComponent,
-    TipoDocumentoDialogComponent
+    TipoDocumentoDialogComponent,
+    ExportarDocumentoDialogComponent
   ],
   imports: [
     CommonModule,

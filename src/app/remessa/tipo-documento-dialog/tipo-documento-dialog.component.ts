@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
+import { ItemDeRemessa } from 'src/app/tipos/item-de-remessa';
 import { TipoDeDocumentoSelect } from 'src/app/tipos/tipo-de-documento-select';
 
 @Component({
@@ -10,7 +12,11 @@ import { TipoDeDocumentoSelect } from 'src/app/tipos/tipo-de-documento-select';
 })
 export class TipoDocumentoDialogComponent {
 
-  selectedValue: string = "";
+  itemRemessa: ItemDeRemessa = {
+    nome: "",
+    medicamento: "",
+    tipoDeDocumento: ""
+  }
 
   valores: TipoDeDocumentoSelect[] = [
     {value: 'tipo01', texto: 'Tipo 01'},
@@ -20,10 +26,16 @@ export class TipoDocumentoDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TipoDocumentoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: ItemDeRemessa,
+  ) {
+
+    this.itemRemessa.nome = data.nome;
+    this.itemRemessa.medicamento = data.medicamento;
+    this.itemRemessa.tipoDeDocumento = this.valores[0].texto;
+
+   }
 
   onConfirm(result: boolean): void {
-    this.dialogRef.close(this.selectedValue);
+    this.dialogRef.close(this.itemRemessa);
   }
 }

@@ -1,14 +1,27 @@
 <div mat-dialog-content>
 
-  <mat-form-field>
-    <mat-label>Escolha o tipo de documento</mat-label>
+  <div class="form">
 
-    <mat-select [(ngModel)]="selectedValue" name="tipos">
-      <mat-option *ngFor="let item of valores" [value]="item.value">
-        {{ item.texto }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nome</mat-label>
+      <input matInput type="text" [(ngModel)]="itemRemessa.nome" [value]="itemRemessa.nome">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Medicamento</mat-label>
+      <input matInput type="text" [(ngModel)]="itemRemessa.medicamento" [value]="itemRemessa.medicamento">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Escolha o tipo de documento</mat-label>
+      <mat-select [(value)]="itemRemessa.tipoDeDocumento" name="tipos">
+        <mat-option *ngFor="let item of valores" [value]="item.value">
+          {{ item.texto }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
 
 
 </div>

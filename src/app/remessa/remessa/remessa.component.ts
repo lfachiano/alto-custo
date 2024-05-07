@@ -5,8 +5,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ItemDeRemessa } from 'src/app/tipos/item-de-remessa';
 
+import jspdf from 'jspdf';
 import * as XLSX from 'xlsx';
 import { TipoDocumentoDialogComponent } from '../tipo-documento-dialog/tipo-documento-dialog.component';
+import { ExportarDocumentoDialogComponent } from '../exportar-documento-dialog/exportar-documento-dialog.component';
+import { DadosParaRelatorio } from 'src/app/tipos/dados-para-relatorio';
 
 type DADOS = any[][];
 
@@ -64,19 +67,19 @@ export class RemessaComponent {
   usar(item: any) {
 
 
-    let tipo = this.selecionarTipoDeDocumento();
-
-
-      let ir: ItemDeRemessa = {
+    const dialog = this.dialog.open(TipoDocumentoDialogComponent, {
+      data: {
         nome: item[0],
         medicamento: item[4],
-        tipoDeDocumento: tipo
+        tipoDeDocumento: ''
       }
+    });
 
+    dialog.afterClosed().subscribe(result => {
       let aux = this.itens.data;
-      aux.push(ir);
+      aux.push(result);
       this.itens.connect().next(aux);
-
+    });
 
   }
 
@@ -93,20 +96,61 @@ export class RemessaComponent {
 
   }
 
-  gerarDocumento() {
-    console.log(`Gerar Documento`);
-  }
+  exportar() {
+    const dialog = this.dialog.open(ExportarDocumentoDialogComponent);
 
-
-  async selecionarTipoDeDocumento() {
-
-    const dialog = this.dialog.open(TipoDocumentoDialogComponent);
-    await dialog.afterClosed().subscribe(tipo => {
-      return tipo;
+    dialog.afterClosed().subscribe(result => {
+      this.gerarDocumento(result);
     });
-
-    return "";
   }
+
+  gerarDocumento(componentes: DadosParaRelatorio) {
+
+    let nomeDoDestinatario = componentes.destinatario
+    let data = componentes.data;
+
+    let documento = new jspdf('p', 'mm', 'a4');
+
+    //adiociona o cabeçalho
+    documento.addImage("assets/cabecalho-indiana.jpg", "JPEG", 0, 0, 200, 30);
+
+    //Título
+    let titulo = `RELAÇÃO DE REMESSA`;
+    documento.setFontSize(20);
+    documento.text(titulo, 65, 50);
+
+    //Destinatário
+    let destinatario = `Aos cuidados do(a) senhor(a)`;
+    documento.setFontSize(12);
+    documento.text(destinatario, 10, 70);
+    documento.text(nomeDoDestinatario, 10, 75);
+
+    //relação de documentos
+    documento.setFontSize(9);
+    let dados =  this.itens.data;
+    let linha = 90
+    for (let i=0; i<dados.length; i++) {
+      documento.text(`${(i+1)}) ${dados[i].nome} - ${dados[i].medicamento} - ${dados[i].tipoDeDocumento}`, 15, linha);
+      linha += 5;
+
+      if (linha >= 250) {
+        documento.addPage('a4');
+        documento.addImage("assets/cabecalho-indiana.jpg", "JPEG", 0, 0, 200, 30);
+        linha = 50;
+      }
+
+    }
+
+
+    //encerramento
+    documento.setFontSize(12);
+    documento.text(`Indiana/SP, ${data}`, 150, 250);
+
+    //abre o arquivo em uma nova aba
+    documento.output("dataurlnewwindow");
+
+  }
+
 
 
 }
