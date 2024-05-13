@@ -63,6 +63,7 @@
 </mat-toolbar>
 
 <mat-card-content>
+
   <mat-table [dataSource]="itens" class="mat-table">
 
     <!-- Coluna de Nome -->
@@ -78,10 +79,12 @@
     </ng-container>
 
      <!-- Coluna de Tipo -->
-     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef> Tipo de Documento </mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{ item.tipoDeDocumento }} </mat-cell>
-    </ng-container>
+     <!--
+       <ng-container matColumnDef="tipo">
+         <mat-header-cell *matHeaderCellDef> Tipo de Documento </mat-header-cell>
+         <mat-cell *matCellDef="let item"> {{ item.tipoDeDocumento }} </mat-cell>
+        </ng-container>
+      -->
 
      <!-- Coluna de Excluir -->
      <ng-container matColumnDef="excluir">

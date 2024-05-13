@@ -10,16 +10,30 @@ import { DadosParaRelatorio } from 'src/app/tipos/dados-para-relatorio';
 export class ExportarDocumentoDialogComponent {
 
   dados: DadosParaRelatorio = {
-    destinatario: "",
-    data: ""
+    origem: `ESF-II “ROBERTO CETARA DOS SANTOS” – INDIANA - SP`,
+    destinatario: `FARMÁCIA DE MEDICAMENTO ESPECIALIZADO DE PRESIDENTE`,
+    assunto: "",
+    data: "",
+    obrservacao: "DEVOLVER UMA VIA ASSINADA"
   };
 
   constructor(
     public dialogRef: MatDialogRef<ExportarDocumentoDialogComponent>
   ) {
+
+    const agora = Date.now();
+    const hoje = new Date(agora);
+    this.dados.data = hoje.toLocaleDateString();
+
    }
 
   onConfirm(result: boolean): void {
+
+    this.dados.origem = this.dados.origem.toUpperCase();
+    this.dados.destinatario = this.dados.destinatario.toUpperCase();
+    this.dados.assunto = this.dados.assunto.toUpperCase();
+    this.dados.obrservacao = this.dados.obrservacao.toUpperCase();
+
     this.dialogRef.close(this.dados);
   }
 

@@ -21,11 +21,12 @@ type DADOS = any[][];
 export class RemessaComponent {
 
   readonly colunasDaPlanilha = ['nome', 'medicamento', 'selecionar'];
-  readonly colunasDaRemessa = ['nome', 'medicamento', 'tipo', 'excluir'];
+  readonly colunasDaRemessa = ['nome', 'medicamento', 'excluir'];
 
   nomeDoArquivo: any;
   dados: DADOS = [];
   itens = new MatTableDataSource<ItemDeRemessa>();
+  espera = false;
 
   constructor(
     private service: LocalStorageService,
@@ -36,6 +37,8 @@ export class RemessaComponent {
 
   onFileSelected(evt: any) {
 
+
+
     const target: DataTransfer = <DataTransfer>(evt.target);
 
     if (target.files.length !== 1) {
@@ -45,6 +48,7 @@ export class RemessaComponent {
 
 
     const reader: FileReader = new FileReader();
+
     reader.onload = (e: any) => {
 
       //lê o arquivo
@@ -66,7 +70,6 @@ export class RemessaComponent {
 
   usar(item: any) {
 
-
     const dialog = this.dialog.open(TipoDocumentoDialogComponent, {
       data: {
         nome: item[0],
@@ -80,6 +83,7 @@ export class RemessaComponent {
       aux.push(result);
       this.itens.connect().next(aux);
     });
+
 
   }
 
@@ -106,31 +110,42 @@ export class RemessaComponent {
 
   gerarDocumento(componentes: DadosParaRelatorio) {
 
-    let nomeDoDestinatario = componentes.destinatario
-    let data = componentes.data;
-
     let documento = new jspdf('p', 'mm', 'a4');
 
-    //adiociona o cabeçalho
+    //adiciona o cabeçalho
     documento.addImage("assets/cabecalho-indiana.jpg", "JPEG", 0, 0, 200, 30);
 
+    //Fonte padrão
+    documento.setFont("Helvetica", "normal");
+
     //Título
-    let titulo = `RELAÇÃO DE REMESSA`;
+    let titulo = `RELAÇÃO DE REMESSA ${componentes.data}`;
     documento.setFontSize(20);
-    documento.text(titulo, 65, 50);
+    documento.text(titulo, 45, 50);
+
+    //tamanho padrão
+    documento.setFontSize(12);
+
+    //Origem
+    let origem = `DE: ${componentes.origem}`
+    documento.text(origem, 10, 65);
 
     //Destinatário
-    let destinatario = `Aos cuidados do(a) senhor(a)`;
-    documento.setFontSize(12);
+    let destinatario = `PARA: ${componentes.destinatario}`;
     documento.text(destinatario, 10, 70);
-    documento.text(nomeDoDestinatario, 10, 75);
 
-    //relação de documentos
+    //Assunto
+    let assunto = `ASSUNTO: ${componentes.assunto}`;
+    documento.setFont("Helvetica", "bold");
+    documento.text(assunto, 10, 83);
+
+    //Relação de documentos
+    documento.setFont("Helvetica", "normal");
     documento.setFontSize(9);
     let dados =  this.itens.data;
     let linha = 90
     for (let i=0; i<dados.length; i++) {
-      documento.text(`${(i+1)}) ${dados[i].nome} - ${dados[i].medicamento} - ${dados[i].tipoDeDocumento}`, 15, linha);
+      documento.text(`${(i+1)}) ${dados[i].nome} - ${dados[i].medicamento}`, 15, linha);
       linha += 5;
 
       if (linha >= 250) {
@@ -141,16 +156,19 @@ export class RemessaComponent {
 
     }
 
-
-    //encerramento
+    //Assinaturas
     documento.setFontSize(12);
-    documento.text(`Indiana/SP, ${data}`, 150, 250);
+    documento.text(`ENVIADO POR: `, 10, 260);
+    documento.text(`DATA:       /       /    `, 150, 260);
+    documento.text(`RECEBIDO POR: `, 10, 270);
+    documento.text(`DATA:       /       /    `, 150, 270);
+
+    //Observação
+    documento.text(`OBS: ${componentes.obrservacao}`, 10, 280);
 
     //abre o arquivo em uma nova aba
     documento.output("dataurlnewwindow");
 
   }
-
-
 
 }

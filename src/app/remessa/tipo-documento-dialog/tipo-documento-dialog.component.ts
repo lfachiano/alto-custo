@@ -31,11 +31,15 @@ export class TipoDocumentoDialogComponent {
 
     this.itemRemessa.nome = data.nome;
     this.itemRemessa.medicamento = data.medicamento;
-    this.itemRemessa.tipoDeDocumento = this.valores[0].texto;
+    this.itemRemessa.tipoDeDocumento = ``;
 
    }
 
   onConfirm(result: boolean): void {
+
+    this.itemRemessa.nome = this.itemRemessa.nome.toUpperCase();
+    this.itemRemessa.medicamento = this.itemRemessa.medicamento.toUpperCase();
+
     this.dialogRef.close(this.itemRemessa);
   }
 }

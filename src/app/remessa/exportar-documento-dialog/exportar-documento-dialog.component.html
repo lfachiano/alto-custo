@@ -3,13 +3,28 @@
   <div class="form">
 
     <mat-form-field>
+      <mat-label>Origem</mat-label>
+      <input matInput type="text" [(ngModel)]="dados.origem">
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Destinatário</mat-label>
       <input matInput type="text" [(ngModel)]="dados.destinatario">
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Assunto</mat-label>
+      <input matInput type="text" [(ngModel)]="dados.assunto">
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Data</mat-label>
       <input matInput type="text" [(ngModel)]="dados.data">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Observação</mat-label>
+      <input matInput type="text" [(ngModel)]="dados.obrservacao">
     </mat-form-field>
 
   </div>

@@ -1,5 +1,8 @@
 export interface DadosParaRelatorio {
+  origem: string,
   destinatario: string,
-  data: string
+  assunto: string,
+  data: string,
+  obrservacao: string
 }
 
